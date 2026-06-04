@@ -1,30 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import hero from "@/assets/hero.jpg";
-import portrait from "@/assets/portrait.jpg";
-import asaanka from "@/assets/asaanka.jpg";
-import kairos from "@/assets/kairos.jpg";
-import nineja from "@/assets/9ja.jpg";
-import kivahan from "@/assets/kivahan.jpg";
-import beyro from "@/assets/beyro.jpg";
-import fouta from "@/assets/fouta.jpg";
-
-type Project = {
-  name: string;
-  role: string;
-  year: string;
-  url: string;
-  img: string;
-  tag: string;
-};
-
-const projects: Project[] = [
-  { name: "Asaanka Berlin", role: "Sri Lankan café — brand site & menu storytelling", year: "2025", url: "https://asanka-berlin.lovable.app", img: asaanka, tag: "Café" },
-  { name: "Café Beyro", role: "Café, bar & kitchen in Kreuzberg — mobile-first launch site", year: "2025", url: "https://beyro-berlin-vibe.lovable.app", img: beyro, tag: "Café · Bar" },
-  { name: "Kairos Café", role: "Specialty coffee — editorial one-pager", year: "2025", url: "https://kairoscafe-de.lovable.app", img: kairos, tag: "Café" },
-  { name: "Kiva Han Brunch", role: "Turkish brunch destination — high-converting site", year: "2025", url: "https://kiva-han-vibes.lovable.app", img: kivahan, tag: "Brunch" },
-  { name: "9JA Flavor Fusion", role: "Nigerian kitchen — brand & ordering site", year: "2025", url: "https://ja-flavour-web.lovable.app", img: nineja, tag: "Restaurant" },
-  { name: "Fouta", role: "West African–inspired hospitality brand", year: "2025", url: "https://guinean-mosaic-forge.lovable.app", img: fouta, tag: "Hospitality" },
-];
+import portraitAsset from "@/assets/portrait-meji.jpg.asset.json";
+import { projects } from "@/data/projects";
 
 const Nav = () => (
   <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
@@ -86,8 +64,8 @@ const About = () => (
   <section id="about" className="py-24 md:py-36">
     <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-12">
       <div className="md:col-span-5">
-        <div className="aspect-[4/5] overflow-hidden rounded-sm">
-          <img src={portrait} alt="Portrait of Meji Yinka" loading="lazy" width={1024} height={1280} className="w-full h-full object-cover grayscale" />
+        <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted">
+          <img src={portraitAsset.url} alt="Portrait of Meji Yinka" loading="lazy" width={1024} height={1280} className="w-full h-full object-cover" />
         </div>
       </div>
       <div className="md:col-span-7 md:pt-8">
@@ -140,16 +118,14 @@ const Work = () => (
           const isFeature = i === 0;
           const colSpan = isFeature ? "md:col-span-12" : i % 3 === 1 ? "md:col-span-7" : "md:col-span-5";
           return (
-            <a
-              key={p.name}
-              href={p.url}
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              key={p.slug}
+              to={`/work/${p.slug}`}
               className={`group ${colSpan} block`}
             >
               <div className={`overflow-hidden rounded-sm bg-muted ${isFeature ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
                 <img
-                  src={p.img}
+                  src={p.cover}
                   alt={`${p.name} — ${p.role}`}
                   loading="lazy"
                   width={1200}
@@ -161,16 +137,19 @@ const Work = () => (
                 <div>
                   <h3 className="font-serif text-2xl md:text-3xl">
                     {p.name}
-                    <span className="text-accent"> ↗</span>
+                    <span className="text-accent"> →</span>
                   </h3>
                   <p className="mt-1 text-muted-foreground">{p.role}</p>
+                  <p className="mt-2 text-xs uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                    View case study
+                  </p>
                 </div>
                 <div className="text-xs uppercase tracking-widest text-muted-foreground text-right shrink-0 pt-2">
                   <div>{p.tag}</div>
                   <div className="mt-1">{p.year}</div>
                 </div>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>

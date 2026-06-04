@@ -1,54 +1,36 @@
-## Portfolio plan — Meji Yinka
+## Add case study pages + real portrait
 
-A single-page, editorial/elegant portfolio that positions you as **Berlin's go-to web designer for food & drink brands**, with your real Lovable projects as case studies.
+### 1. Replace About portrait
+- Upload your attached photo via `lovable-assets` and swap `src/assets/portrait.jpg` for the new asset in `src/pages/Index.tsx` (About section). Remove the `grayscale` class since the photo is already B&W.
 
-### Sections
+### 2. Project data → shared module
+- Extract the `projects` array out of `Index.tsx` into `src/data/projects.ts`, keyed by `slug` (e.g. `asaanka-berlin`, `kairos-cafe`, etc.).
+- Each project gets extra fields: `slug`, `client`, `location`, `year`, `services[]` (e.g. Brand website, Menu storytelling, Local SEO, Mobile-first), `summary` (1 short paragraph), `challenge`, `approach`, `outcome` (2–3 sentences each), `liveUrl`, `gallery[]` (2–3 images — reuse existing hero image + 1–2 newly generated editorial shots per project).
 
-1. **Hero**
-   - Name: Meji Yinka
-   - Tagline: "Berlin's go-to designer for food & drink brands"
-   - Subline: "Websites for cafés, restaurants and bars that get found, look great, and turn visitors into regulars."
-   - CTA: "Start a project" → scrolls to contact
+### 3. Case study route
+- Add `/work/:slug` route in `src/App.tsx`.
+- New page `src/pages/CaseStudy.tsx`:
+  - Sticky back link → `/#work`
+  - Hero: client name, tagline/role, meta row (Year · Location · Services)
+  - Large cover image
+  - Two-column: left = Challenge / Approach / Outcome; right = sticky sidebar with Services list + "Visit live site ↗" button + "Next project →" link
+  - Gallery (2–3 images, editorial spacing)
+  - Footer CTA: "Start a project" → `/#contact`
+- Match existing editorial design tokens (serif headings, terracotta accent, fade-up).
 
-2. **About**
-   - Short editorial paragraph based on your intro
-   - Berlin-based · Hospitality-focused · Conversion-driven
-   - Small list of what you do (Brand websites · Menus & storytelling · Local SEO · Mobile-first design)
+### 4. Home work grid update
+- Each card on `Index.tsx` links to `/work/:slug` instead of opening the external Lovable URL. The external "Visit live site" link lives on the case study page.
+- Add a small "View case study →" affordance on hover.
 
-3. **Selected work** (project grid, editorial layout — large featured + smaller below)
-   Pulled from your Lovable builds, each as a card linking to the live site:
-   - **Asaanka Berlin** — https://asanka-berlin.lovable.app
-   - **Kairos Café** — https://kairoscafe-de.lovable.app
-   - **Kiva Han Brunch** — https://kiva-han-vibes.lovable.app
-   - **Café Beyro** — https://beyro-berlin-vibe.lovable.app
-   - **9JA Flavor Fusion** — https://ja-flavour-web.lovable.app
-   - **Fouta** — https://guinean-mosaic-forge.lovable.app
-   - (optional add-ons: NoLe Café, Chroma Coffee, Schroeder, Vickis — say the word and I'll include them)
-   Each card: project name, one-line role/description, live link.
+### 5. Images
+- Generate 1–2 additional editorial detail shots per project (interior/menu/detail mood) and save to `src/assets/<slug>/`. Reuse existing project hero as cover.
 
-4. **Contact**
-   - Email: mejiyinka@gmail.com
-   - Phone: +49 1556 0605741
-   - Location: Berlin, Germany
-   - Simple contact form (name, email, message) — opens mail draft on submit (no backend)
+### 6. SEO
+- Per-case-study `<title>` and meta description set via a small head effect (or react-helmet-style inline update) — e.g. "Kairos Café — Case study · Meji Yinka".
 
-### Design direction (editorial / elegant)
+### Files touched
+- new: `src/data/projects.ts`, `src/pages/CaseStudy.tsx`, ~6–12 new generated images, new portrait asset
+- edited: `src/App.tsx` (route), `src/pages/Index.tsx` (portrait, card links, import from data module)
 
-- Warm off-white background, deep ink black text, single muted accent (terracotta or olive)
-- Serif display font (Instrument Serif or Cormorant) for headlines, clean sans (Inter / Work Sans) for body
-- Generous whitespace, asymmetric grid, large type, restrained motion (subtle fade/slide on scroll)
-- Mobile-first, responsive
-
-### Technical
-
-- Single page at `/` (`src/pages/Index.tsx`) with section components: `Hero`, `About`, `Work`, `Contact`, plus a thin top nav and footer
-- Tokens defined in `src/index.css` + `tailwind.config.ts` (HSL semantic tokens, fonts loaded in `index.html`)
-- Contact form uses a `mailto:` submit — no Cloud/backend needed
-- Project thumbnails: generated editorial-style placeholder images per project (we can swap to real screenshots later)
-- SEO: title, meta description, OG tags, single H1, semantic HTML
-
-### Open questions (optional — I can also just proceed)
-
-- Include all 6 projects above, or trim/add any?
-- Accent color preference: terracotta, olive, or burgundy?
-- Add a small "Services & pricing" blurb, or keep it pure portfolio?
+### Open question
+Do you want me to write the **Challenge / Approach / Outcome** copy myself (generic but tailored per cuisine/venue type), or will you supply notes for each project?
