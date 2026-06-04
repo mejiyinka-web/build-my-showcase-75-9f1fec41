@@ -1,36 +1,37 @@
-## Add case study pages + real portrait
+## Add per-page SEO + OG images to case studies, integrate Instagram
 
-### 1. Replace About portrait
-- Upload your attached photo via `lovable-assets` and swap `src/assets/portrait.jpg` for the new asset in `src/pages/Index.tsx` (About section). Remove the `grayscale` class since the photo is already B&W.
+### 1. Per-route head with react-helmet-async
+- Install `react-helmet-async`.
+- Wrap app in `<HelmetProvider>` in `src/main.tsx`.
+- Remove static `<link rel="canonical">` from `index.html` (it would conflict with per-route canonicals). Keep sitewide title/description/og as fallback for non-JS social crawlers.
 
-### 2. Project data → shared module
-- Extract the `projects` array out of `Index.tsx` into `src/data/projects.ts`, keyed by `slug` (e.g. `asaanka-berlin`, `kairos-cafe`, etc.).
-- Each project gets extra fields: `slug`, `client`, `location`, `year`, `services[]` (e.g. Brand website, Menu storytelling, Local SEO, Mobile-first), `summary` (1 short paragraph), `challenge`, `approach`, `outcome` (2–3 sentences each), `liveUrl`, `gallery[]` (2–3 images — reuse existing hero image + 1–2 newly generated editorial shots per project).
+### 2. Case study SEO (`src/pages/CaseStudy.tsx`)
+Replace the current `document.title` effect with `<Helmet>` containing:
+- `<title>` — `"{project.name} — {project.tag} case study · Meji Yinka"`
+- `<meta name="description">` — `project.summary` (trimmed to ~155 chars)
+- `<link rel="canonical" href="/work/{slug}">`
+- Open Graph: `og:title`, `og:description`, `og:type=article`, `og:url=/work/{slug}`, `og:image={project.cover}` (absolute-ish path), `og:image:width/height`
+- Twitter: `twitter:card=summary_large_image`, matching title/desc/image
+- JSON-LD `CreativeWork` with name, description, image, author (Meji Yinka), url
 
-### 3. Case study route
-- Add `/work/:slug` route in `src/App.tsx`.
-- New page `src/pages/CaseStudy.tsx`:
-  - Sticky back link → `/#work`
-  - Hero: client name, tagline/role, meta row (Year · Location · Services)
-  - Large cover image
-  - Two-column: left = Challenge / Approach / Outcome; right = sticky sidebar with Services list + "Visit live site ↗" button + "Next project →" link
-  - Gallery (2–3 images, editorial spacing)
-  - Footer CTA: "Start a project" → `/#contact`
-- Match existing editorial design tokens (serif headings, terracotta accent, fade-up).
+### 3. Home page SEO (`src/pages/Index.tsx`)
+Add `<Helmet>` with refined title/description and `og:image` set to `hero.jpg`, plus `Person` JSON-LD for Meji (name, jobTitle, location Berlin, sameAs Instagram URL, email, telephone).
 
-### 4. Home work grid update
-- Each card on `Index.tsx` links to `/work/:slug` instead of opening the external Lovable URL. The external "Visit live site" link lives on the case study page.
-- Add a small "View case study →" affordance on hover.
+### 4. OG image strategy
+Reuse each project's existing editorial cover (`project.cover`) as the OG image — they're already 16:9-ish, high quality, and on-brand. No new image generation needed. Imports resolve to hashed `/assets/*.jpg` URLs at build time, which work as og:image values.
 
-### 5. Images
-- Generate 1–2 additional editorial detail shots per project (interior/menu/detail mood) and save to `src/assets/<slug>/`. Reuse existing project hero as cover.
-
-### 6. SEO
-- Per-case-study `<title>` and meta description set via a small head effect (or react-helmet-style inline update) — e.g. "Kairos Café — Case study · Meji Yinka".
+### 5. Instagram integration (@meji.olayinka)
+- Add `instagram: "https://instagram.com/meji.olayinka"` to a small `src/data/social.ts` (or inline constant) for reuse.
+- **Nav** (`Index.tsx`): keep current links, no change.
+- **Contact section**: add Instagram alongside email + phone — "Instagram — @meji.olayinka" linking to the profile (new tab, `rel="noopener"`).
+- **Footer**: add Instagram icon/text link.
+- **Case study footer CTA section**: add the same Instagram link beside "Start a project".
+- **Person JSON-LD** (home): include the Instagram URL in `sameAs`.
 
 ### Files touched
-- new: `src/data/projects.ts`, `src/pages/CaseStudy.tsx`, ~6–12 new generated images, new portrait asset
-- edited: `src/App.tsx` (route), `src/pages/Index.tsx` (portrait, card links, import from data module)
+- new: `src/data/social.ts` (optional, single source of truth)
+- edited: `package.json` (add `react-helmet-async`), `src/main.tsx` (HelmetProvider), `index.html` (drop canonical), `src/pages/Index.tsx` (Helmet + Instagram links + Person JSON-LD), `src/pages/CaseStudy.tsx` (Helmet + JSON-LD, remove old title effect)
 
-### Open question
-Do you want me to write the **Challenge / Approach / Outcome** copy myself (generic but tailored per cuisine/venue type), or will you supply notes for each project?
+### Notes
+- No project domain set yet → canonical/og:url stay relative per Lovable SEO guidance.
+- og:image uses imported asset URLs; LinkedIn/Slack crawlers will fetch them from the published origin once deployed.
