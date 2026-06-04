@@ -39,17 +39,19 @@ export const projects: Project[] = [
     year: "2025",
     location: "Berlin, DE",
     url: "https://asanka-berlin.lovable.app",
+    status: "upcoming",
     cover: asaanka,
     gallery: [asaanka, asaankaDetail],
     services: ["Brand website", "Menu storytelling", "Local SEO", "Mobile-first design"],
     summary:
-      "A digital front door for a Sri Lankan café that wanted Berliners to discover the warmth and depth of the cuisine before they ever stepped inside.",
+      "A digital front door for a Sri Lankan café that wants Berliners to discover the warmth and depth of the cuisine before they ever step inside.",
     challenge:
-      "Asaanka had a loyal walk-in crowd but was nearly invisible online. The old presence didn't reflect the food, the room, or the people behind it — and it wasn't converting search traffic into seated guests.",
+      "Asaanka has a loyal walk-in crowd but is nearly invisible online. The old presence doesn't reflect the food, the room, or the people behind it — and it isn't converting search traffic into seated guests.",
     approach:
-      "We led with the food: editorial photography, a menu that reads like a short story, and a calm, off-white palette that lets the spice colours do the talking. Local SEO, opening hours and directions are surfaced above the fold on mobile.",
+      "Lead with the food: editorial photography, a menu that reads like a short story, and a calm, off-white palette that lets the spice colours do the talking. Local SEO, opening hours and directions are surfaced above the fold on mobile.",
     outcome:
-      "A site that finally matches the room — and turns first-time Google searches into Saturday brunch bookings.",
+      "A site built to finally match the room — designed to turn first-time Google searches into Saturday brunch bookings at launch.",
+
   },
   {
     slug: "cafe-beyro",
