@@ -1,2 +1,0 @@
-[run]
-build = "mkdir -p dist && cp -r index.html favicon.ico placeholder.svg robots.txt .nojekyll assets dist/"
