@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import hero from "@/assets/hero.jpg";
 import portraitAsset from "@/assets/portrait-meji.jpg.asset.json";
 import { projects } from "@/data/projects";
+import { social } from "@/data/social";
+
 
 const Nav = () => (
   <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
@@ -179,13 +182,19 @@ const Contact = () => {
           </p>
           <ul className="mt-10 space-y-3 text-base">
             <li>
-              <a href="mailto:mejiyinka@gmail.com" className="hover:text-accent">mejiyinka@gmail.com</a>
+              <a href={`mailto:${social.email}`} className="hover:text-accent">{social.email}</a>
             </li>
             <li>
-              <a href="tel:+4915560605741" className="hover:text-accent">+49 1556 0605741</a>
+              <a href={`tel:${social.phone}`} className="hover:text-accent">{social.phoneDisplay}</a>
+            </li>
+            <li>
+              <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+                Instagram — {social.instagramHandle}
+              </a>
             </li>
             <li className="text-muted-foreground">Berlin, Germany</li>
           </ul>
+
         </div>
 
         <form onSubmit={onSubmit} className="md:col-span-6 space-y-6 md:pt-10">
@@ -231,13 +240,55 @@ const Footer = () => (
   <footer className="border-t border-border py-10">
     <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
       <p>© {new Date().getFullYear()} Meji Yinka. Designed & built in Berlin.</p>
-      <p className="font-serif italic text-sm">Brewed strong. Shipped warm.</p>
+      <div className="flex items-center gap-6">
+        <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+          Instagram {social.instagramHandle}
+        </a>
+        <p className="font-serif italic text-sm">Brewed strong. Shipped warm.</p>
+      </div>
     </div>
   </footer>
 );
 
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Meji Yinka",
+  jobTitle: "Web designer for food & drink brands",
+  email: `mailto:${social.email}`,
+  telephone: social.phone,
+  address: { "@type": "PostalAddress", addressLocality: "Berlin", addressCountry: "DE" },
+  url: "/",
+  image: hero,
+  sameAs: [social.instagram],
+};
+
 const Index = () => (
   <main>
+    <Helmet>
+      <title>Meji Yinka — Berlin web designer for food & drink brands</title>
+      <meta name="description" content="Meji Yinka designs editorial, conversion-focused websites for Berlin cafés, restaurants and bars. Get found, look great, turn visitors into regulars." />
+      <link rel="canonical" href="/" />
+      <meta property="og:title" content="Meji Yinka — Berlin web designer for food & drink brands" />
+      <meta property="og:description" content="Editorial, conversion-focused websites for Berlin cafés, restaurants and bars." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="/" />
+      <meta property="og:image" content={hero} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content={hero} />
+      <meta name="twitter:creator" content="@meji.olayinka" />
+      <script type="application/ld+json">{JSON.stringify(personLd)}</script>
+    </Helmet>
+    <Nav />
+    <Hero />
+    <Marquee />
+    <About />
+    <Work />
+    <Contact />
+    <Footer />
+  </main>
+);
+
     <Nav />
     <Hero />
     <Marquee />
