@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { getNextProject, getProject } from "@/data/projects";
+import { social } from "@/data/social";
 import NotFound from "./NotFound";
 
 const CaseStudy = () => {
@@ -9,20 +11,33 @@ const CaseStudy = () => {
   const next = project ? getNextProject(slug) : null;
 
   useEffect(() => {
-    if (!project) return;
-    const prevTitle = document.title;
-    const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    document.title = `${project.name} — Case study · Meji Yinka`;
-    const desc = document.querySelector('meta[name="description"]');
-    desc?.setAttribute("content", project.summary);
     window.scrollTo(0, 0);
-    return () => {
-      document.title = prevTitle;
-      desc?.setAttribute("content", prevDesc);
-    };
-  }, [project]);
+  }, [slug]);
 
   if (!project) return <NotFound />;
+
+  const url = `/work/${project.slug}`;
+  const title = `${project.name} — ${project.tag} case study · Meji Yinka`;
+  const description = project.summary.length > 160 ? project.summary.slice(0, 157) + "…" : project.summary;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.name,
+    headline: `${project.name} — ${project.role}`,
+    description: project.summary,
+    image: project.cover,
+    url,
+    dateCreated: project.year,
+    locationCreated: project.location,
+    author: {
+      "@type": "Person",
+      name: "Meji Yinka",
+      url: "/",
+      sameAs: [social.instagram],
+    },
+    keywords: project.services.join(", "),
+  };
+
 
   return (
     <main className="bg-background">
