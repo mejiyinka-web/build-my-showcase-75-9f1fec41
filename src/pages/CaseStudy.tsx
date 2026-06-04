@@ -108,8 +108,9 @@ const CaseStudy = () => {
             {[
               ["Challenge", project.challenge],
               ["Approach", project.approach],
-              ["Outcome", project.outcome],
+              [isUpcoming ? "Goal" : "Outcome", project.outcome],
             ].map(([label, body]) => (
+
               <div key={label}>
                 <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">{label}</p>
                 <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">{body}</p>
