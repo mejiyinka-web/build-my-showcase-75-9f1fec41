@@ -61,17 +61,19 @@ export const projects: Project[] = [
     year: "2025",
     location: "Kreuzberg, Berlin",
     url: "https://beyro-berlin-vibe.lovable.app",
+    status: "upcoming",
     cover: beyro,
     gallery: [beyro, beyroDetail],
     services: ["Launch website", "Brand voice", "Photography direction", "Mobile-first design"],
     summary:
-      "A launch site for a neighbourhood café-bar that needed to feel like Kreuzberg at golden hour — warm, a little moody, ready for the night crowd.",
+      "A launch site for a neighbourhood café-bar that needs to feel like Kreuzberg at golden hour — warm, a little moody, ready for the night crowd.",
     challenge:
-      "Beyro was opening with a triple identity — café by day, kitchen by evening, bar at night. The site had to make all three legible without splitting the brand.",
+      "Beyro is opening with a triple identity — café by day, kitchen by evening, bar at night. The site has to make all three legible without splitting the brand.",
     approach:
       "One scroll, three moods. Warm tungsten photography, generous typography, and a single hero that shifts from morning to evening as you scroll. Reservations and menu live one tap away.",
     outcome:
-      "Beyro launched with a packed first weekend and a site that locals actually share.",
+      "Built to greet Beyro's first guests on opening weekend with a site locals will actually want to share.",
+
   },
   {
     slug: "kairos-cafe",
