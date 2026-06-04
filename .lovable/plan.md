@@ -1,37 +1,35 @@
-## Add per-page SEO + OG images to case studies, integrate Instagram
+## Mark three projects as "not yet launched"
 
-### 1. Per-route head with react-helmet-async
-- Install `react-helmet-async`.
-- Wrap app in `<HelmetProvider>` in `src/main.tsx`.
-- Remove static `<link rel="canonical">` from `index.html` (it would conflict with per-route canonicals). Keep sitewide title/description/og as fallback for non-JS social crawlers.
+Asaanka Berlin, Café Beyro, and Kiva Han Brunch aren't live yet — the site currently presents them as shipped work with "Visit live site" CTAs, which misrepresents their status.
 
-### 2. Case study SEO (`src/pages/CaseStudy.tsx`)
-Replace the current `document.title` effect with `<Helmet>` containing:
-- `<title>` — `"{project.name} — {project.tag} case study · Meji Yinka"`
-- `<meta name="description">` — `project.summary` (trimmed to ~155 chars)
-- `<link rel="canonical" href="/work/{slug}">`
-- Open Graph: `og:title`, `og:description`, `og:type=article`, `og:url=/work/{slug}`, `og:image={project.cover}` (absolute-ish path), `og:image:width/height`
-- Twitter: `twitter:card=summary_large_image`, matching title/desc/image
-- JSON-LD `CreativeWork` with name, description, image, author (Meji Yinka), url
+### Data model (`src/data/projects.ts`)
+- Add an optional field to `Project`:
+  - `status?: "live" | "upcoming"` (default treated as `"live"`)
+- Set `status: "upcoming"` on:
+  - `asaanka-berlin`
+  - `cafe-beyro`
+  - `kiva-han-brunch`
+- Leave `url` in place (preview links) but it will be rendered as a private preview, not a public live site.
+- Lightly soften the `outcome` copy on those three so it no longer implies post-launch results (e.g. Beyro's "packed first weekend", Kiva Han's "weekday covers up", Asaanka's "Saturday brunch bookings"). Rewrite each as a pre-launch promise rather than a past result.
 
-### 3. Home page SEO (`src/pages/Index.tsx`)
-Add `<Helmet>` with refined title/description and `og:image` set to `hero.jpg`, plus `Person` JSON-LD for Meji (name, jobTitle, location Berlin, sameAs Instagram URL, email, telephone).
+### Home page work grid (`src/pages/Index.tsx`)
+- On each project card for an `upcoming` project, show a small badge: `Launching soon` (uppercase, tracked, muted/accent token — matches existing tag style).
 
-### 4. OG image strategy
-Reuse each project's existing editorial cover (`project.cover`) as the OG image — they're already 16:9-ish, high quality, and on-brand. No new image generation needed. Imports resolve to hashed `/assets/*.jpg` URLs at build time, which work as og:image values.
+### Case study page (`src/pages/CaseStudy.tsx`)
+- In the hero meta line, append `· Launching soon` when `status === "upcoming"`.
+- Replace the "Outcome" block label with `Goal` for upcoming projects (keeps three-block rhythm but honest about tense).
+- Replace the sidebar CTA:
+  - Live → `Visit live site ↗` (unchanged)
+  - Upcoming → `View preview ↗` with a small caption `Private preview — launching soon`
+- Update SEO:
+  - Title suffix: `… case study · Meji Yinka` → `… (launching soon) · Meji Yinka` for upcoming ones
+  - JSON-LD: omit `dateCreated` (or set to year only — keep year) and don't claim shipped outcomes in `description`; use the (softened) summary.
 
-### 5. Instagram integration (@meji.olayinka)
-- Add `instagram: "https://instagram.com/meji.olayinka"` to a small `src/data/social.ts` (or inline constant) for reuse.
-- **Nav** (`Index.tsx`): keep current links, no change.
-- **Contact section**: add Instagram alongside email + phone — "Instagram — @meji.olayinka" linking to the profile (new tab, `rel="noopener"`).
-- **Footer**: add Instagram icon/text link.
-- **Case study footer CTA section**: add the same Instagram link beside "Start a project".
-- **Person JSON-LD** (home): include the Instagram URL in `sameAs`.
+### Out of scope
+- No design system changes, no new images, no routing changes.
+- Instagram, OG, and Helmet wiring stay as-is.
 
 ### Files touched
-- new: `src/data/social.ts` (optional, single source of truth)
-- edited: `package.json` (add `react-helmet-async`), `src/main.tsx` (HelmetProvider), `index.html` (drop canonical), `src/pages/Index.tsx` (Helmet + Instagram links + Person JSON-LD), `src/pages/CaseStudy.tsx` (Helmet + JSON-LD, remove old title effect)
-
-### Notes
-- No project domain set yet → canonical/og:url stay relative per Lovable SEO guidance.
-- og:image uses imported asset URLs; LinkedIn/Slack crawlers will fetch them from the published origin once deployed.
+- `src/data/projects.ts` — add `status`, mark three projects, soften outcomes
+- `src/pages/Index.tsx` — `Launching soon` badge on cards
+- `src/pages/CaseStudy.tsx` — meta line, Outcome→Goal label, CTA, title swap for upcoming

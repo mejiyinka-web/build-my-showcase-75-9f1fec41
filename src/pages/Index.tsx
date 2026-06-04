@@ -150,8 +150,14 @@ const Work = () => (
                 <div className="text-xs uppercase tracking-widest text-muted-foreground text-right shrink-0 pt-2">
                   <div>{p.tag}</div>
                   <div className="mt-1">{p.year}</div>
+                  {p.status === "upcoming" && (
+                    <div className="mt-2 inline-block text-accent border border-accent/40 px-2 py-1 rounded-full">
+                      Launching soon
+                    </div>
+                  )}
                 </div>
               </div>
+
             </Link>
           );
         })}

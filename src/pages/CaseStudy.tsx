@@ -17,7 +17,9 @@ const CaseStudy = () => {
   if (!project) return <NotFound />;
 
   const url = `/work/${project.slug}`;
-  const title = `${project.name} — ${project.tag} case study · Meji Yinka`;
+  const isUpcoming = project.status === "upcoming";
+  const title = `${project.name} — ${project.tag} case study${isUpcoming ? " (launching soon)" : ""} · Meji Yinka`;
+
   const description = project.summary.length > 160 ? project.summary.slice(0, 157) + "…" : project.summary;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -72,8 +74,9 @@ const CaseStudy = () => {
       <section className="pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-6 fade-up">
-            {project.tag} · {project.year} · {project.location}
+            {project.tag} · {project.year} · {project.location}{isUpcoming ? " · Launching soon" : ""}
           </p>
+
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-5xl fade-up">
             {project.name}
           </h1>
@@ -105,8 +108,9 @@ const CaseStudy = () => {
             {[
               ["Challenge", project.challenge],
               ["Approach", project.approach],
-              ["Outcome", project.outcome],
+              [isUpcoming ? "Goal" : "Outcome", project.outcome],
             ].map(([label, body]) => (
+
               <div key={label}>
                 <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">{label}</p>
                 <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">{body}</p>
@@ -131,10 +135,14 @@ const CaseStudy = () => {
                   rel="noreferrer"
                   className="inline-block bg-foreground text-background px-6 py-3 rounded-full text-sm hover:bg-accent transition-colors"
                 >
-                  Visit live site ↗
+                  {isUpcoming ? "View preview ↗" : "Visit live site ↗"}
                 </a>
+                {isUpcoming && (
+                  <p className="text-xs text-accent">Private preview — launching soon</p>
+                )}
                 <p className="text-xs text-muted-foreground break-all">{project.url.replace(/^https?:\/\//, "")}</p>
               </div>
+
             </div>
           </aside>
         </div>

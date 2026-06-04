@@ -19,6 +19,7 @@ export type Project = {
   year: string;
   location: string;
   url: string;
+  status?: "live" | "upcoming";
   cover: string;
   gallery: string[];
   services: string[];
@@ -27,6 +28,7 @@ export type Project = {
   approach: string;
   outcome: string;
 };
+
 
 export const projects: Project[] = [
   {
@@ -37,17 +39,19 @@ export const projects: Project[] = [
     year: "2025",
     location: "Berlin, DE",
     url: "https://asanka-berlin.lovable.app",
+    status: "upcoming",
     cover: asaanka,
     gallery: [asaanka, asaankaDetail],
     services: ["Brand website", "Menu storytelling", "Local SEO", "Mobile-first design"],
     summary:
-      "A digital front door for a Sri Lankan café that wanted Berliners to discover the warmth and depth of the cuisine before they ever stepped inside.",
+      "A digital front door for a Sri Lankan café that wants Berliners to discover the warmth and depth of the cuisine before they ever step inside.",
     challenge:
-      "Asaanka had a loyal walk-in crowd but was nearly invisible online. The old presence didn't reflect the food, the room, or the people behind it — and it wasn't converting search traffic into seated guests.",
+      "Asaanka has a loyal walk-in crowd but is nearly invisible online. The old presence doesn't reflect the food, the room, or the people behind it — and it isn't converting search traffic into seated guests.",
     approach:
-      "We led with the food: editorial photography, a menu that reads like a short story, and a calm, off-white palette that lets the spice colours do the talking. Local SEO, opening hours and directions are surfaced above the fold on mobile.",
+      "Lead with the food: editorial photography, a menu that reads like a short story, and a calm, off-white palette that lets the spice colours do the talking. Local SEO, opening hours and directions are surfaced above the fold on mobile.",
     outcome:
-      "A site that finally matches the room — and turns first-time Google searches into Saturday brunch bookings.",
+      "A site built to finally match the room — designed to turn first-time Google searches into Saturday brunch bookings at launch.",
+
   },
   {
     slug: "cafe-beyro",
@@ -57,17 +61,19 @@ export const projects: Project[] = [
     year: "2025",
     location: "Kreuzberg, Berlin",
     url: "https://beyro-berlin-vibe.lovable.app",
+    status: "upcoming",
     cover: beyro,
     gallery: [beyro, beyroDetail],
     services: ["Launch website", "Brand voice", "Photography direction", "Mobile-first design"],
     summary:
-      "A launch site for a neighbourhood café-bar that needed to feel like Kreuzberg at golden hour — warm, a little moody, ready for the night crowd.",
+      "A launch site for a neighbourhood café-bar that needs to feel like Kreuzberg at golden hour — warm, a little moody, ready for the night crowd.",
     challenge:
-      "Beyro was opening with a triple identity — café by day, kitchen by evening, bar at night. The site had to make all three legible without splitting the brand.",
+      "Beyro is opening with a triple identity — café by day, kitchen by evening, bar at night. The site has to make all three legible without splitting the brand.",
     approach:
       "One scroll, three moods. Warm tungsten photography, generous typography, and a single hero that shifts from morning to evening as you scroll. Reservations and menu live one tap away.",
     outcome:
-      "Beyro launched with a packed first weekend and a site that locals actually share.",
+      "Built to greet Beyro's first guests on opening weekend with a site locals will actually want to share.",
+
   },
   {
     slug: "kairos-cafe",
@@ -97,6 +103,7 @@ export const projects: Project[] = [
     year: "2025",
     location: "Berlin, DE",
     url: "https://kiva-han-vibes.lovable.app",
+    status: "upcoming",
     cover: kivahan,
     gallery: [kivahan, kivahanDetail],
     services: ["Brand website", "Menu & gallery", "Reservations flow", "Local SEO"],
@@ -107,7 +114,8 @@ export const projects: Project[] = [
     approach:
       "Lead with the table — long-format brunch photography, a clear weekday vs. weekend rhythm, and a sticky reservation CTA on mobile.",
     outcome:
-      "Weekday covers up, and the site now ranks for 'Turkish brunch Berlin' alongside the established names.",
+      "Designed to lift weekday covers at launch and rank for 'Turkish brunch Berlin' alongside the established names.",
+
   },
   {
     slug: "9ja-flavor-fusion",
