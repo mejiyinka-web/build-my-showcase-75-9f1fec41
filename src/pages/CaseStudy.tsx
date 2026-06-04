@@ -135,10 +135,14 @@ const CaseStudy = () => {
                   rel="noreferrer"
                   className="inline-block bg-foreground text-background px-6 py-3 rounded-full text-sm hover:bg-accent transition-colors"
                 >
-                  Visit live site ↗
+                  {isUpcoming ? "View preview ↗" : "Visit live site ↗"}
                 </a>
+                {isUpcoming && (
+                  <p className="text-xs text-accent">Private preview — launching soon</p>
+                )}
                 <p className="text-xs text-muted-foreground break-all">{project.url.replace(/^https?:\/\//, "")}</p>
               </div>
+
             </div>
           </aside>
         </div>
