@@ -17,7 +17,9 @@ const CaseStudy = () => {
   if (!project) return <NotFound />;
 
   const url = `/work/${project.slug}`;
-  const title = `${project.name} — ${project.tag} case study · Meji Yinka`;
+  const isUpcoming = project.status === "upcoming";
+  const title = `${project.name} — ${project.tag} case study${isUpcoming ? " (launching soon)" : ""} · Meji Yinka`;
+
   const description = project.summary.length > 160 ? project.summary.slice(0, 157) + "…" : project.summary;
   const jsonLd = {
     "@context": "https://schema.org",
