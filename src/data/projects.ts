@@ -103,6 +103,7 @@ export const projects: Project[] = [
     year: "2025",
     location: "Berlin, DE",
     url: "https://kiva-han-vibes.lovable.app",
+    status: "upcoming",
     cover: kivahan,
     gallery: [kivahan, kivahanDetail],
     services: ["Brand website", "Menu & gallery", "Reservations flow", "Local SEO"],
@@ -113,7 +114,8 @@ export const projects: Project[] = [
     approach:
       "Lead with the table — long-format brunch photography, a clear weekday vs. weekend rhythm, and a sticky reservation CTA on mobile.",
     outcome:
-      "Weekday covers up, and the site now ranks for 'Turkish brunch Berlin' alongside the established names.",
+      "Designed to lift weekday covers at launch and rank for 'Turkish brunch Berlin' alongside the established names.",
+
   },
   {
     slug: "9ja-flavor-fusion",
