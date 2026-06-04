@@ -19,6 +19,7 @@ export type Project = {
   year: string;
   location: string;
   url: string;
+  status?: "live" | "upcoming";
   cover: string;
   gallery: string[];
   services: string[];
@@ -27,6 +28,7 @@ export type Project = {
   approach: string;
   outcome: string;
 };
+
 
 export const projects: Project[] = [
   {
