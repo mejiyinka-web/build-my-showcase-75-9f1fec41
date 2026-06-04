@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { getNextProject, getProject } from "@/data/projects";
+import { social } from "@/data/social";
 import NotFound from "./NotFound";
 
 const CaseStudy = () => {
@@ -9,23 +11,55 @@ const CaseStudy = () => {
   const next = project ? getNextProject(slug) : null;
 
   useEffect(() => {
-    if (!project) return;
-    const prevTitle = document.title;
-    const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    document.title = `${project.name} — Case study · Meji Yinka`;
-    const desc = document.querySelector('meta[name="description"]');
-    desc?.setAttribute("content", project.summary);
     window.scrollTo(0, 0);
-    return () => {
-      document.title = prevTitle;
-      desc?.setAttribute("content", prevDesc);
-    };
-  }, [project]);
+  }, [slug]);
 
   if (!project) return <NotFound />;
 
+  const url = `/work/${project.slug}`;
+  const title = `${project.name} — ${project.tag} case study · Meji Yinka`;
+  const description = project.summary.length > 160 ? project.summary.slice(0, 157) + "…" : project.summary;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.name,
+    headline: `${project.name} — ${project.role}`,
+    description: project.summary,
+    image: project.cover,
+    url,
+    dateCreated: project.year,
+    locationCreated: project.location,
+    author: {
+      "@type": "Person",
+      name: "Meji Yinka",
+      url: "/",
+      sameAs: [social.instagram],
+    },
+    keywords: project.services.join(", "),
+  };
+
+
   return (
     <main className="bg-background">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={project.cover} />
+        <meta property="og:image:width" content="1600" />
+        <meta property="og:image:height" content="900" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={project.cover} />
+        <meta name="twitter:creator" content="@meji.olayinka" />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
+
       {/* Top bar */}
       <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
         <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
