@@ -289,14 +289,4 @@ const Index = () => (
   </main>
 );
 
-    <Nav />
-    <Hero />
-    <Marquee />
-    <About />
-    <Work />
-    <Contact />
-    <Footer />
-  </main>
-);
-
 export default Index;
