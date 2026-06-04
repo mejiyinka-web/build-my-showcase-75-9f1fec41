@@ -74,8 +74,9 @@ const CaseStudy = () => {
       <section className="pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-6 fade-up">
-            {project.tag} · {project.year} · {project.location}
+            {project.tag} · {project.year} · {project.location}{isUpcoming ? " · Launching soon" : ""}
           </p>
+
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-5xl fade-up">
             {project.name}
           </h1>
