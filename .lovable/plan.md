@@ -1,22 +1,25 @@
 ## Plan
 
-1. **Restore preview stability**
-   - Replace the custom static dev server with the normal Lovable/Vite dev setup so the preview reconnects properly.
-   - Add the minimum required project files/scripts if missing so Lovable can run the app reliably.
+1. **Make the preview process resilient**
+   - Keep the preview server on port `8080`.
+   - Add a small watcher/supervisor dev script that starts `scripts/serve-static.mjs` and automatically restarts it if it exits or crashes.
+   - Add basic crash logging so future preview failures are visible in the dev-server logs.
 
-2. **Fix the publish output**
-   - Keep `netlify.toml` pointed at `dist`, but make the build produce a clean, current `dist` folder every time.
-   - Ensure `dist/index.html` references the latest bundle and not the older stale bundle.
+2. **Make the static server safer for Lovable preview**
+   - Ensure the server listens on `0.0.0.0:8080` by default.
+   - Add error handling for stream/file errors so a bad request cannot crash the whole preview server.
+   - Add no-cache headers for HTML and image/script/css responses during preview to reduce stale previews.
 
-3. **Fix the portrait source permanently**
-   - Make `/portrait.jpg` part of the published output.
-   - Update every active reference to the About portrait so the live build uses `/portrait.jpg`, not the old hashed image or old CDN path.
+3. **Replace the portrait with the uploaded file**
+   - Copy the newly attached `portrait.jpg` into the project root so `/portrait.jpg` matches the uploaded image.
+   - Keep `/portrait.jpg` included in the publish output.
+   - Remove stale fallback image behavior by confirming the active JS bundle points to `/portrait.jpg`.
 
-4. **Add cache protection**
-   - Add cache-busting to the active script/CSS references if needed.
-   - Keep headers that force HTML/assets to revalidate so Netlify and browsers stop showing the stale version.
+4. **Force deployment to use the current portrait**
+   - Update `netlify.toml` headers so `/portrait.jpg` also revalidates instead of staying cached.
+   - Rebuild the static output and confirm `dist/portrait.jpg` has the same hash as the uploaded file.
 
 5. **Verify before handoff**
-   - Check the preview starts again.
-   - Check the built `dist` folder contains `portrait.jpg` and the current JS bundle references `/portrait.jpg`.
-   - Then you can click **Update** in Publish again.
+   - Restart the preview server.
+   - Confirm the recent logs show the server running on port `8080`.
+   - Confirm the built output contains the new portrait and active bundle reference.

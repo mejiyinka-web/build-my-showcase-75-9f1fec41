@@ -11,3 +11,8 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/portrait.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
