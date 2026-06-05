@@ -1,26 +1,32 @@
-## SEO Meta Tags & Crawlability Enhancement
+I found the publish failure is because the project root currently has no `package.json`, `netlify.toml`, or server/build scripts, so the publisher has no build command to run.
 
-### Current State
-Your `index.html` already has a solid foundation: title, description, author, Open Graph basics, and Twitter card tags. `robots.txt` allows all major crawlers. However, several key SEO elements are missing that help Google index and social platforms preview your site properly.
+Plan:
 
-### What will be added
+1. Add a minimal `package.json`
+   - Define `build`, `dev`, and `start` scripts.
+   - Make `build` generate the publishable `dist/` folder.
+   - Make `dev` run the preview server on port `8080`.
 
-1. **index.html enhancements**
-   - `<link rel="canonical">` with absolute URL — tells search engines the definitive page URL, preventing duplicate content issues
-   - `<meta property="og:image">` referencing your `portrait.jpg` — enables rich social previews on LinkedIn, Facebook, Slack, etc.
-   - `<meta property="og:image:alt">` — accessibility & SEO for the preview image
-   - JSON-LD structured data (Schema.org `Person` / `ProfessionalService`) — helps Google understand who you are, your location (Berlin), and your role, powering knowledge panels and rich results
-   - Update `og:url` from relative `/` to absolute URL
+2. Add a static build script
+   - Create `scripts/build-static.mjs`.
+   - Copy the static site files into `dist/`: `index.html`, `404.html`, `favicon.ico`, `placeholder.svg`, `portrait.jpg`, `robots.txt`, `sitemap.xml`, and `assets/`.
+   - This keeps the updated image and SEO files included in the published site.
 
-2. **sitemap.xml (new file)**
-   - Standard XML sitemap listing your homepage with `lastmod`, `changefreq`, and `priority`
-   - Placed at project root so crawlers discover it at the well-known `/sitemap.xml` path
+3. Add a stable preview server
+   - Create `scripts/serve-static.mjs` to serve files from the project on `0.0.0.0:8080`.
+   - Add safe fallback behavior for `/`, missing files, and common static assets.
+   - Add no-cache headers so image updates show immediately.
 
-3. **robots.txt update**
-   - Add `Sitemap: https://build-my-showcase-75.lovable.app/sitemap.xml` directive so Googlebot, Bingbot, etc. immediately know where to find your sitemap
+4. Add an auto-restart supervisor
+   - Create `scripts/dev.mjs`.
+   - It starts the static server on port `8080` and restarts it if it crashes.
 
-### Technical Details
-- Base URL: `https://build-my-showcase-75.lovable.app`
-- OG image: `/portrait.jpg` (already present in both root and `dist/`)
-- JSON-LD type: `Person` with `jobTitle`, `areaServed` (Berlin), `worksFor` (self), and social profile links
-- All changes are additive — no existing tags will be removed or altered
+5. Add `netlify.toml`
+   - Set the publish command to the new build script.
+   - Set `dist` as the publish directory.
+   - Add cache-control rules for `portrait.jpg`, `index.html`, `robots.txt`, and `sitemap.xml` so updates are not stuck behind cache.
+
+6. Verify
+   - Run the build command locally.
+   - Confirm `dist/` contains the SEO files and the current portrait image.
+   - Restart the preview server so the editor reconnects.
