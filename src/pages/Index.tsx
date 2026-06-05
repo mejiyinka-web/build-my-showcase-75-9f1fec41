@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import hero from "@/assets/hero.jpg";
-import portraitAsset from "@/assets/portrait-meji.jpg.asset.json";
+import portrait from "@/assets/portrait.jpg";
 import { projects } from "@/data/projects";
 import { social } from "@/data/social";
 
@@ -68,7 +68,7 @@ const About = () => (
     <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-12">
       <div className="md:col-span-5">
         <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted">
-          <img src={portraitAsset.url} alt="Portrait of Meji Yinka" loading="lazy" width={1024} height={1280} className="w-full h-full object-cover" />
+          <img src={portrait} alt="Portrait of Meji Yinka" loading="lazy" width={1024} height={1280} className="w-full h-full object-cover" />
         </div>
       </div>
       <div className="md:col-span-7 md:pt-8">
