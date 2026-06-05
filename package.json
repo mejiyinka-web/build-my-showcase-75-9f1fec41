@@ -1,9 +1,0 @@
-{
-  "name": "meji-yinka-portfolio",
-  "private": true,
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "npx -y http-server . -a 0.0.0.0 -p 8080 -c-1",
-    "build": "rm -rf dist && mkdir -p dist && cp -r index.html 404.html favicon.ico robots.txt placeholder.svg assets dist/"
-  }
-}
