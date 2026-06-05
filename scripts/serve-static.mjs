@@ -4,7 +4,7 @@ import { extname, join, normalize } from "node:path";
 
 const root = process.cwd();
 const host = process.env.HOST || "0.0.0.0";
-const port = Number(process.env.PORT || 5173);
+const port = Number(process.env.PORT || 8080);
 
 const types = {
   ".html": "text/html; charset=utf-8",
