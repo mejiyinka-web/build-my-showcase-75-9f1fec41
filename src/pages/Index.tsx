@@ -52,7 +52,7 @@ const Hero = () => (
 
 const Marquee = () => (
   <div className="border-y border-border py-4 overflow-hidden">
-<div className="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-2 md:flex md:flex-wrap md:gap-x-10 gap-4 text-sm text-muted-foreground text-center">
+<div className="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-3 md:flex md:flex-wrap md:gap-x-10 gap-x-4 gap-y-3 text-sm text-muted-foreground text-center">
       <span>Brand websites</span><span>·</span>
       <span>Menus & storytelling</span><span>·</span>
       <span>Local SEO</span><span>·</span>
