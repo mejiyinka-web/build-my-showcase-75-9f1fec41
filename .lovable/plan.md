@@ -1,35 +1,23 @@
-## Mark three projects as "not yet launched"
+## Plan
 
-Asaanka Berlin, Café Beyro, and Kiva Han Brunch aren't live yet — the site currently presents them as shipped work with "Visit live site" CTAs, which misrepresents their status.
+1. **Restore Lovable run configuration**
+   - Add a root `lovable.toml` with an explicit dev command so the preview daemon always knows how to start the app.
+   - Use the existing Vite setup instead of a static file server, since this project now has `src/`, `package.json`, and Vite config.
 
-### Data model (`src/data/projects.ts`)
-- Add an optional field to `Project`:
-  - `status?: "live" | "upcoming"` (default treated as `"live"`)
-- Set `status: "upcoming"` on:
-  - `asaanka-berlin`
-  - `cafe-beyro`
-  - `kiva-han-brunch`
-- Leave `url` in place (preview links) but it will be rendered as a private preview, not a public live site.
-- Lightly soften the `outcome` copy on those three so it no longer implies post-launch results (e.g. Beyro's "packed first weekend", Kiva Han's "weekday covers up", Asaanka's "Saturday brunch bookings"). Rewrite each as a pre-launch promise rather than a past result.
+2. **Add a publish-friendly build config**
+   - Add `netlify.toml` with `npm run build` and `dist` so publishing has a stable build/output target.
+   - Keep it aligned with the existing `package.json` scripts.
 
-### Home page work grid (`src/pages/Index.tsx`)
-- On each project card for an `upcoming` project, show a small badge: `Launching soon` (uppercase, tracked, muted/accent token — matches existing tag style).
+3. **Remove conflicting/dead deployment config if needed**
+   - Leave the active `.github/workflows/deploy.yml` alone unless requested.
+   - Do not touch app UI or site content.
 
-### Case study page (`src/pages/CaseStudy.tsx`)
-- In the hero meta line, append `· Launching soon` when `status === "upcoming"`.
-- Replace the "Outcome" block label with `Goal` for upcoming projects (keeps three-block rhythm but honest about tense).
-- Replace the sidebar CTA:
-  - Live → `Visit live site ↗` (unchanged)
-  - Upcoming → `View preview ↗` with a small caption `Private preview — launching soon`
-- Update SEO:
-  - Title suffix: `… case study · Meji Yinka` → `… (launching soon) · Meji Yinka` for upcoming ones
-  - JSON-LD: omit `dateCreated` (or set to year only — keep year) and don't claim shipped outcomes in `description`; use the (softened) summary.
+4. **Validate the fix**
+   - Restart the preview server after config changes.
+   - Check the dev-server logs/preview health signal to confirm it starts without the “no command found for task dev” interruption.
 
-### Out of scope
-- No design system changes, no new images, no routing changes.
-- Instagram, OG, and Helmet wiring stay as-is.
+## Technical details
 
-### Files touched
-- `src/data/projects.ts` — add `status`, mark three projects, soften outcomes
-- `src/pages/Index.tsx` — `Launching soon` badge on cards
-- `src/pages/CaseStudy.tsx` — meta line, Outcome→Goal label, CTA, title swap for upcoming
+- `lovable.toml` should point to `npm run dev -- --host 0.0.0.0 --port 8080` or equivalent.
+- `netlify.toml` should point publishing to `dist` after `npm run build`.
+- No backend, database, or visual changes are required.
